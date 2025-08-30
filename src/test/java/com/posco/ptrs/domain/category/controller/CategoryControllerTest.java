@@ -2,6 +2,7 @@ package com.posco.ptrs.domain.category.controller;
 
 import com.posco.ptrs.domain.category.service.CategoryService;
 import com.posco.ptrs.domain.category.dto.CategoryDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,7 +25,8 @@ class CategoryControllerTest {
     private CategoryService categoryService;
 
     @Test
-    void 루트_카테고리_조회_성공() throws Exception {
+    @DisplayName("루트 카테고리 조회 성공")
+    void getRootCategories() throws Exception {
         // given
         List<CategoryDto> mockData = List.of(
             new CategoryDto("posco", "포스코", 1, null, true),
@@ -43,7 +45,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void 자식_카테고리_조회_성공() throws Exception {
+    @DisplayName("자식 카테고리 조회 성공")
+    void getChildCategories() throws Exception {
         // given
         String parentId = "posco";
         List<CategoryDto> mockData = List.of(
@@ -59,7 +62,8 @@ class CategoryControllerTest {
     }
 
     @Test
-    void parentId_빈값시_400() throws Exception {
+    @DisplayName("parentId 빈값시 400 오류 반환")
+    void getChildCategoriesWithEmptyParentId() throws Exception {
         mockMvc.perform(get("/api/categories").param("parentId", ""))
                 .andExpect(status().isBadRequest());
     }

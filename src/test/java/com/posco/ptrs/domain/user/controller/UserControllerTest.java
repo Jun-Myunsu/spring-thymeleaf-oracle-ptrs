@@ -3,6 +3,7 @@ package com.posco.ptrs.domain.user.controller;
 import com.posco.ptrs.domain.user.service.UserService;
 import com.posco.ptrs.domain.user.dto.UserDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -32,7 +33,8 @@ class UserControllerTest {
     private UserService userService;
 
     @Test
-    void 사용자_목록_조회_성공() throws Exception {
+    @DisplayName("사용자 목록 조회 성공")
+    void getUserList() throws Exception {
         // given
         List<UserDto> mockUsers = List.of(
             new UserDto(1L, "admin", "admin@posco.com", "ADMIN", null, null, null),
@@ -48,7 +50,8 @@ class UserControllerTest {
     }
 
     @Test
-    void 사용자_상세_조회_성공() throws Exception {
+    @DisplayName("사용자 상세 조회 성공")
+    void getUserDetail() throws Exception {
         // given
         Long userId = 1L;
         UserDto mockUser = new UserDto(1L, "admin", "admin@posco.com", "ADMIN", null, null, null);
@@ -62,7 +65,8 @@ class UserControllerTest {
     }
 
     @Test
-    void 사용자_생성_폼_조회() throws Exception {
+    @DisplayName("사용자 생성 폼 조회")
+    void getUserCreateForm() throws Exception {
         mockMvc.perform(get("/users/new"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("user"))
@@ -70,7 +74,8 @@ class UserControllerTest {
     }
 
     @Test
-    void 사용자_생성_성공() throws Exception {
+    @DisplayName("사용자 생성 성공")
+    void createUser() throws Exception {
         // given
         UserDto newUser = new UserDto(null, "test", "test@posco.com", "USER", "password", null, null);
         UserDto savedUser = new UserDto(3L, "test", "test@posco.com", "USER", null, null, null);
@@ -88,7 +93,8 @@ class UserControllerTest {
     }
 
     @Test
-    void 사용자_수정_폼_조회() throws Exception {
+    @DisplayName("사용자 수정 폼 조회")
+    void getUserEditForm() throws Exception {
         // given
         Long userId = 1L;
         UserDto mockUser = new UserDto(1L, "admin", "admin@posco.com", "ADMIN", null, null, null);
@@ -102,7 +108,8 @@ class UserControllerTest {
     }
 
     @Test
-    void 사용자_수정_성공() throws Exception {
+    @DisplayName("사용자 수정 성공")
+    void updateUser() throws Exception {
         // given
         Long userId = 1L;
         UserDto updatedUser = new UserDto(1L, "admin", "admin@posco.com", "ADMIN", null, null, null);
@@ -115,11 +122,12 @@ class UserControllerTest {
                 .param("email", "admin@posco.com")
                 .param("role", "ADMIN"))
                 .andExpect(status().is3xxRedirection())
-                .andExpected(redirectedUrl("/users"));
+                .andExpect(redirectedUrl("/users"));
     }
 
     @Test
-    void 사용자_삭제_성공() throws Exception {
+    @DisplayName("사용자 삭제 성공")
+    void deleteUser() throws Exception {
         // given
         Long userId = 1L;
         doNothing().when(userService).deleteUser(userId);
@@ -127,11 +135,12 @@ class UserControllerTest {
         // when & then
         mockMvc.perform(delete("/users/{id}", userId))
                 .andExpect(status().is3xxRedirection())
-                .andExpected(redirectedUrl("/users"));
+                .andExpect(redirectedUrl("/users"));
     }
 
     @Test
-    void 사용자_생성_검증_실패() throws Exception {
+    @DisplayName("사용자 생성 검증 실패")
+    void createUserValidationFail() throws Exception {
         mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("username", "")
