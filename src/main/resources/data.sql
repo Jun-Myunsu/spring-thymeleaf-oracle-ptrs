@@ -1,4 +1,5 @@
 -- src/main/resources/data.sql
+-- BCrypt 해시: admin123, user123
 INSERT INTO users (username, email, password, role) VALUES
 ('admin', 'admin@posco.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'ADMIN'),
 ('user1', 'user1@posco.com', '$2a$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2uheWG/igi.', 'USER');

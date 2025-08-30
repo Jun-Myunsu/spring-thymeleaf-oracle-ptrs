@@ -80,8 +80,8 @@ java -jar target/ptrs-1.0.0.jar --spring.profiles.active=oracle
 
 ## 테스트 계정
 
-- **관리자**: admin@posco.com / admin123
-- **사용자**: user1@posco.com / user123
+- **관리자**: admin@posco.com / secret
+- **사용자**: user1@posco.com / secret
 
 ## 주요 기능
 

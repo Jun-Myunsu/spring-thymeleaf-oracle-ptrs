@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 
 import java.util.Map;
 
@@ -27,6 +28,13 @@ public class GlobalExceptionHandler {
     public Object handleIllegalArgument(IllegalArgumentException e, HttpServletRequest request) {
         log.warn("잘못된 요청: {}", e.getMessage());
         return createResponse(request, HttpStatus.BAD_REQUEST, "Bad Request", e.getMessage(), "error/error");
+    }
+    
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Object handleConstraintViolation(ConstraintViolationException e, HttpServletRequest request) {
+        log.warn("유효성 검증 실패: {}", e.getMessage());
+        String message = e.getConstraintViolations().iterator().next().getMessage();
+        return createResponse(request, HttpStatus.BAD_REQUEST, "Validation Failed", message, "error/error");
     }
     
     @ExceptionHandler(UserNotFoundException.class)
